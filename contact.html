@@ -166,9 +166,78 @@
                 </form>
             </div>
             <!-- Contact Form Ends -->
-        </div>
-    </div>
-
+         <!-- Message Container Starts -->
+                <div class="message-container"></div>
+                <!-- Message Container Ends -->
+            
+                <!-- Messaging Script Starts -->
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        var messages = [];
+                
+                        function displayMessages() {
+                            var messageContainer = document.querySelector('.message-container');
+                            messageContainer.innerHTML = '';
+                
+                            messages.forEach(function (message, index) {
+                                if (!message.read) {
+                                    var messageDiv = document.createElement('div');
+                                    messageDiv.classList.add('message');
+                
+                                    messageDiv.innerHTML = '<strong>From:</strong> ' + message.name + ' (' + message.email + ')<br>' +
+                                        '<strong>Subject:</strong> ' + message.subject + '<br>' +
+                                        '<strong>Message:</strong> ' + message.message + '<br>' +
+                                        '<strong>Status:</strong> ' + (message.read ? 'Read' : 'Unread') + '<br>' +
+                                        '<button onclick="markAsRead(' + index + ')">Mark as Read</button>' +
+                                        '<hr>';
+                
+                                    messageContainer.appendChild(messageDiv);
+                                }
+                            });
+                        }
+                
+                        function addMessage(name, email, subject, message) {
+                            var newMessage = {
+                                name: name,
+                                email: email,
+                                subject: subject,
+                                message: message,
+                                read: false
+                            };
+                
+                            messages.push(newMessage);
+                            displayMessages();
+                        }
+                
+                        function markAsRead(index) {
+                            messages[index].read = true;
+                            displayMessages();
+                        }
+                
+                        var form = document.querySelector('.contactform');
+                        form.addEventListener('submit', function (event) {
+                            event.preventDefault();
+                
+                            var name = form.querySelector('[name="name"]').value;
+                            var email = form.querySelector('[name="email"]').value;
+                            var subject = form.querySelector('[name="subject"]').value;
+                            var message = form.querySelector('[name="message"]').value;
+                
+                            addMessage(name, email, subject, message);
+                
+                            form.reset();
+                        });
+                
+                        displayMessages();
+                    });
+                </script>
+                <!-- Messaging Script Ends -->
+            
+                <!-- Add your existing scripts and other body content here -->
+            
+            </body>
+            
+            </html>
 </section>
 <!-- Template JS Files -->
 <script src="js/jquery-3.5.0.min.js"></script>
